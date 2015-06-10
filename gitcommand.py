@@ -1,15 +1,16 @@
 #! -*- encoding:utf-8 -*-
 import os
-import re
 import sys
+import commands
 
 print '当前工作区情况：'
-st = os.popen('git st').read()
-print st
-if re.search('fatal', st):
+status, output = commands.getstatusoutput('git st')
+print '----' + output
+if status:
+    print status
     sys.exit()
 else:
     string = raw_input("输入提交备注: ")
-    print os.popen('git add .').read()
-    print os.popen('git ci -m "%s"' % string).read()
-    print os.popen('git push origin master').read()
+    os.popen('git add .')
+    os.popen('git ci -m "%s"' % string)
+    os.popen('git push origin master')
